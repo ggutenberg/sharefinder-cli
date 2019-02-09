@@ -1,0 +1,57 @@
+{
+  "name": "sharefinder-cli",
+  "description": "Finds your Dropbox shared files and folders",
+  "version": "0.0.0",
+  "author": "Garth Gutenberg @ggutenberg",
+  "bin": {
+    "sharefinder": "./bin/run"
+  },
+  "bugs": "https://github.com/ggutenberg/sharefinder-cli/issues",
+  "dependencies": {
+    "@oclif/command": "1.5.8",
+    "@oclif/config": "1.12.4",
+    "@oclif/plugin-help": "2.1.6",
+    "@types/bluebird": "3.5.25",
+    "bluebird": "3.5.3",
+    "dropbox": "4.0.15",
+    "isomorphic-fetch": "2.2.1",
+    "ora": "3.0.0",
+    "tslib": "1.9.3"
+  },
+  "devDependencies": {
+    "@oclif/test": "1.2.2",
+    "@oclif/tslint": "3.1.1",
+    "@types/chai": "4.1.7",
+    "@types/mocha": "5.2.5",
+    "@types/node": "10.12.23",
+    "chai": "4.2.0",
+    "mocha": "5.2.0",
+    "nyc": "13.2.0",
+    "ts-node": "7.0.1",
+    "tslint": "5.11.0",
+    "typescript": "3.2.2"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/bin",
+    "/lib"
+  ],
+  "homepage": "https://github.com/ggutenberg/sharefinder-cli",
+  "keywords": [
+    "oclif"
+  ],
+  "license": "MIT",
+  "main": "lib/index.js",
+  "oclif": {
+    "bin": "sharefinder"
+  },
+  "repository": "ggutenberg/sharefinder-cli",
+  "scripts": {
+    "posttest": "tslint -p test -t stylish",
+    "prepack": "rm -rf lib && tsc -b",
+    "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\""
+  },
+  "types": "lib/index.d.ts"
+}
