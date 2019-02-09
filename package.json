@@ -48,7 +48,10 @@
   "license": "MIT",
   "main": "lib/index.js",
   "oclif": {
-    "bin": "sharefinder"
+    "bin": "sharefinder",
+    "macos": {
+      "identifier": "com.grinninggecko.sharefinder.cli"
+    }
   },
   "repository": "ggutenberg/sharefinder-cli",
   "scripts": {
