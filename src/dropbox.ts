@@ -52,6 +52,7 @@ const recursiveGetFilesAndFolders = (root = '', filesAndFolders = [], cursor = n
       }
       console.log('recursiveGetFilesAndFolders');
       console.error(err);
+      return Promise.reject(err);
     })
     ;
 };
@@ -66,6 +67,7 @@ const getComplexShares = (root: string = '', silent: boolean = false) => {
     })
     .catch((err: any) => {
       console.error(err);
+      return Promise.reject(err);
     })
     ;
 }
@@ -95,6 +97,7 @@ const getLinkShares = (filterString: string | null = null, silent: boolean = fal
     })
     .catch((err: any) => {
       console.error(err);
+      return Promise.reject(err);
     })
     ;
 }
