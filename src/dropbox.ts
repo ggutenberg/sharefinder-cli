@@ -6,13 +6,8 @@
 ]}] */
 require('isomorphic-fetch');
 const Promise = require('bluebird');
-const util = require('util');
-const path = require('path');
-const fs = require('fs');
-const ora = require('ora');
 const Dropbox = require('dropbox').Dropbox;
 const dbx = new Dropbox({ accessToken: process.env.DROPBOX_ACCESS_TOKEN, fetch });
-const log = (thing: any) => console.log(util.inspect(thing, { depth: null, colors: true }));
 
 const recursiveGetFilesAndFolders = (root = '', filesAndFolders = [], cursor = null) => {
   // have to add filesListFolderFunction to dbx because of internal `this` references
@@ -36,9 +31,7 @@ const recursiveGetFilesAndFolders = (root = '', filesAndFolders = [], cursor = n
         // add sharingFolderMetadata to entry if folder is shared
         if (entry.shared_folder_id) {
           return dbx.sharingGetFolderMetadata({ shared_folder_id: entry.shared_folder_id })
-            .then((sharingFolderMetadata: any) => {
-              return Object.assign(entry, { sharingFolderMetadata });
-            });
+            .then((sharingFolderMetadata: any) => Object.assign(entry, { sharingFolderMetadata }));
         }
         return entry;
       })
@@ -51,13 +44,19 @@ const recursiveGetFilesAndFolders = (root = '', filesAndFolders = [], cursor = n
         })
         ;
     })
+    .catch((err: any) => {
+      console.log('recursiveGetFilesAndFolders');
+      console.error(err);
+    })
     ;
 };
 
 const getComplexShares = (root: string = '', silent: boolean = false) => {
   return recursiveGetFilesAndFolders(root)
     .then(({ root, filesAndFolders }: { root: string, filesAndFolders: object[] }) => {
-      const sharedPaths = filesAndFolders.filter((faf: any) => faf.shared_folder_id).map((share: any) => share.path_display);
+      const sharedPaths = filesAndFolders
+        .filter((faf: any) => Boolean(faf.shared_folder_id) || Boolean(faf.has_explicit_shared_members))
+        .map((share: any) => share.path_display);
       return sharedPaths;
     })
     .catch((err: any) => {

@@ -31,7 +31,11 @@ class SharefinderCli extends Command {
     const { args, flags } = this.parse(SharefinderCli)
 
     const stringArrayToMultilineString = (arr: string[]) => {
-      return arr.reduce((assembledString: string, sharedLinkPath: string) => (`${assembledString}\n${sharedLinkPath}`), '');
+      return arr.reduce(
+        (assembledString: string, sharePath: string) =>
+          (`${assembledString}\nhttps://www.dropbox.com/home${sharePath}`),
+        ''
+      );
     }
 
     console.log(flags);
