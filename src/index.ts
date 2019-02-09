@@ -17,7 +17,7 @@ class SharefinderCli extends Command {
     }),
     filter: flags.string({
       char: 'f',
-      description: 'Path to filter. Example: "/screenshots". Only applies with --links.',
+      description: '--links path to filter. Example: "/screenshots"',
       dependsOn: ['links']
     }),
     member: flags.boolean({
@@ -26,10 +26,9 @@ class SharefinderCli extends Command {
     }),
     root: flags.string({
       char: 'r',
-      description: 'Root directory to search from. Example "/documents". Only applies with --complex',
+      description: '--member root directory to search from. Example "/documents"',
       dependsOn: ['member']
-    }),
-    silent: flags.boolean({ char: 's' })
+    })
   }
 
   async run() {
