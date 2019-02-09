@@ -1,7 +1,7 @@
 {
   "name": "sharefinder-cli",
   "description": "Finds your Dropbox shared files and folders",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "author": "Garth Gutenberg @ggutenberg",
   "bin": {
     "sharefinder": "./bin/run"
