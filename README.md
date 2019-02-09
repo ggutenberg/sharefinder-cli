@@ -29,22 +29,22 @@ Filter shares containing "/screenshots" in their path
 sharefinder -l -f "/screenshots"
 ```
 
-## Find complex (file and folder) shares
+## Find member shares
 
-Find all complex shares
-
-```
-sharefinder -c
-```
-
-Find all complex shares using "/documents" as the root
+Find all member shares (files and folders shared with explicit Dropbox members)
 
 ```
-sharefinder -c -r "/documents"
+sharefinder -m
 ```
 
-## Find link and complex shares
+Find all member shares using "/documents" as the root
 
 ```
-sharefinder -l -c
+sharefinder -m -r "/documents"
+```
+
+## Find link and member shares
+
+```
+sharefinder -l -m
 ```

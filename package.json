@@ -16,7 +16,9 @@
     "dropbox": "4.0.15",
     "isomorphic-fetch": "2.2.1",
     "ora": "3.0.0",
-    "tslib": "1.9.3"
+    "ramda": "0.26.1",
+    "tslib": "1.9.3",
+    "tty-table": "2.7.0"
   },
   "devDependencies": {
     "@oclif/test": "1.2.2",

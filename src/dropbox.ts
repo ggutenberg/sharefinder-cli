@@ -6,6 +6,7 @@
 ]}] */
 require('isomorphic-fetch');
 const Promise = require('bluebird');
+const R = require('ramda');
 const Dropbox = require('dropbox').Dropbox;
 const dbx = new Dropbox({ accessToken: process.env.DROPBOX_ACCESS_TOKEN, fetch });
 
@@ -45,6 +46,10 @@ const recursiveGetFilesAndFolders = (root = '', filesAndFolders = [], cursor = n
         ;
     })
     .catch((err: any) => {
+      if (R.pathOr(false, ['response', 'status'], err) === 500) {
+        console.log('\nReceived a 500 error from the Dropbox API. Continuing...');
+        return recursiveGetFilesAndFolders(root, filesAndFolders, cursor);
+      }
       console.log('recursiveGetFilesAndFolders');
       console.error(err);
     })

@@ -1,9 +1,10 @@
 import { Command, flags } from '@oclif/command'
-import Help from '@oclif/plugin-help';
 import { getLinkShares, getComplexShares } from './dropbox';
 import { Promise } from 'bluebird';
 //@ts-ignore
 import * as ora from 'ora';
+//@ts-ignore
+import * as Table from 'tty-table';
 
 class SharefinderCli extends Command {
   static description = 'Finds your Dropbox shared files and folders'
@@ -12,17 +13,23 @@ class SharefinderCli extends Command {
     // add --version flag to show CLI version
     version: flags.version({ char: 'v' }),
     help: flags.help({ char: 'h' }),
-    links: flags.boolean({ char: 'l' }),
+    links: flags.boolean({
+      char: 'l',
+      description: 'Search for link shares'
+    }),
     filter: flags.string({
       char: 'f',
       description: 'Path to filter. Example: "/screenshots". Only applies with --links.',
       dependsOn: ['links']
     }),
-    complex: flags.boolean({ char: 'c' }),
+    member: flags.boolean({
+      char: 'm',
+      description: 'Search for member shares'
+    }),
     root: flags.string({
       char: 'r',
       description: 'Root directory to search from. Example "/documents". Only applies with --complex',
-      dependsOn: ['complex']
+      dependsOn: ['member']
     }),
     silent: flags.boolean({ char: 's' })
   }
@@ -30,21 +37,26 @@ class SharefinderCli extends Command {
   async run() {
     const { args, flags } = this.parse(SharefinderCli)
 
-    const stringArrayToMultilineString = (arr: string[]) => {
-      return arr.reduce(
-        (assembledString: string, sharePath: string) =>
-          (`${assembledString}\nhttps://www.dropbox.com/home${sharePath}`),
-        ''
-      );
+    const getTable = (data: string[]) => {
+      const header = [
+        { value: 'path' },
+        { value: 'url' }
+      ];
+      const rows = data.map(path => [path, `https://www.dropbox.com/home${encodeURIComponent(path)}`]);
+      const footer = [`${data.length} shares found`, ''];
+      const opts = { headerAlign: 'left', align: 'left', footerColor: 'blue' };
+      const t = Table(header, rows, footer, opts);
+      const s = t.render();
+      return s;
     }
 
-    console.log(flags);
+    console.log({ flags });
     if (Object.keys(flags).length < 1) {
       this.log('Run `sharefinder -h` for help');
       return;
     }
     const getters = [];
-    let spinner: any = null;
+    let spinner: any;
     if (!flags.silent) {
       spinner = ora({
         text: 'Finding shares (this may take awhile)...',
@@ -54,15 +66,14 @@ class SharefinderCli extends Command {
     if (flags.links) {
       getters.push(getLinkShares(flags.filter));
     }
-    if (flags.complex) {
+    if (flags.member) {
       getters.push(getComplexShares(flags.root));
     }
     return Promise.all(getters)
       .then((results: string[][]) => {
         spinner && spinner.succeed();
         results.forEach((result) => {
-          this.log(stringArrayToMultilineString(result));
-          this.log(result.length.toString());
+          this.log(getTable(result));
         });
       })
       .catch((err) => {
