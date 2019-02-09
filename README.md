@@ -1,16 +1,50 @@
 sharefinder-cli
 ===============
 
-Finds your Dropbox shared files and folders
+Finds your Dropbox shared files and folders.
 
-[![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![Version](https://img.shields.io/npm/v/sharefinder-cli.svg)](https://npmjs.org/package/sharefinder-cli)
-[![CircleCI](https://circleci.com/gh/ggutenberg/sharefinder-cli/tree/master.svg?style=shield)](https://circleci.com/gh/ggutenberg/sharefinder-cli/tree/master)
-[![Downloads/week](https://img.shields.io/npm/dw/sharefinder-cli.svg)](https://npmjs.org/package/sharefinder-cli)
-[![License](https://img.shields.io/npm/l/sharefinder-cli.svg)](https://github.com/ggutenberg/sharefinder-cli/blob/master/package.json)
-
-<!-- toc -->
 # Usage
-<!-- usage -->
-# Commands
-<!-- commands -->
+
+Create a `DROPBOX_ACCESS_TOKEN` environment variable and set its value to your Dropbox access token.
+
+Note that this can take awhile.  In testing, scanning through 640 GB took about 10 minutes.
+
+## Help
+
+```
+sharefinder -h
+```
+
+## Find link shares
+
+Find all link shares
+
+```
+sharefinder -l
+```
+
+Filter shares containing "/screenshots" in their path
+
+```
+sharefinder -l -f "/screenshots"
+```
+
+## Find complex (file and folder) shares
+
+Find all complex shares
+
+```
+sharefinder -c
+```
+
+Find all complex shares using "/documents" as the root
+
+```
+sharefinder -c -r "/documents"
+```
+
+## Find link and complex shares
+
+```
+sharefinder -l -c
+```
