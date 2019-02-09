@@ -5,9 +5,9 @@ Finds your Dropbox shared files and folders.
 
 # Usage
 
-Create a `DROPBOX_ACCESS_TOKEN` environment variable and set its value to your Dropbox access token.
+Create a `DROPBOX_ACCESS_TOKEN` environment variable and set its value to your Dropbox access token. See https://blogs.dropbox.com/developers/2014/05/generate-an-access-token-for-your-own-account/ for details.
 
-Note that this can take awhile.  In testing, scanning through 640 GB took about 10 minutes.
+Note that running this can take awhile. In testing, scanning through 640 GB took about 10 minutes.
 
 ## Help
 
